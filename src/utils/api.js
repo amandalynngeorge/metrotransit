@@ -1,27 +1,26 @@
-const apiURL = 'http://svc.metrotransit.org/NexTrip'
+// import { useQuery } from "react-query"
+// const apiURL = 'http://svc.metrotransit.org/NexTrip'
 
-async function client(
-    endpoint,
-  ) {
-    const config = {
-      method: 'GET',
-      mode: 'cors',
-      headers: {
-        'Content-Type': "application/json",
-        'Accept': "application/json",
-        'Access-Controll-Allow-Origin': '*'
-      }
-    }
-  
-    return fetch(`${apiURL}/${endpoint}`, config).then(async response => {
-      const data = await response.json()
-      if (response.ok) {
-          console.log('fetch', data)
-        return data
-      } else {
-        return Promise.reject(data)
-      }
-    })
-  }
-  
-  export {client}
+// function Client() {
+//     const config = {
+//         method: 'GET',
+//         mode: 'cors',
+//         headers: {
+//           'Content-Type': "application/json",
+//           'Accept': "application/json",
+//           'Access-Controll-Allow-Origin': '*'
+//         }
+//       }
+//     const { isLoading, error, data } = useQuery('data', () => 
+//       fetch(`${apiURL}/Routes`).then(response => response.json())
+//     )
+
+//     if (isLoading) return 'Loading...'
+//     if (error) return 'Error: ' + error.message
+
+//     return (
+//         console.log('data', data)
+//     )
+// }
+    
+//     export {Client}  

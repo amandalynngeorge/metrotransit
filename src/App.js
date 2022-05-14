@@ -10,7 +10,6 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <h1>Departures</h1>
       <RouteList />
-      <DirectionList />
     </QueryClientProvider>
   );
 }
