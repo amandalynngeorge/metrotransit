@@ -1,41 +1,29 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {useQuery} from "react-query";
 import { FormControl, InputLabel, Select, MenuItem } from "@mui/material";
-import { Client } from "./utils/api";
 import Stops from './Stops'
 
-function DirectionList() {
-//     const { isLoading, error, data } = useQuery('repoData', () =>
-//      fetch('http://svc.metrotransit.org/NexTrip/Routes').then(res =>
-//        res.json()
-//      )
-//    )
- 
-//    if (isLoading) return 'Loading...'
- 
-//    if (error) return 'An error has occurred: ' + error.message
+function DirectionList({route}) {
+    const [direction, setDirection] = useState('')
+   
+    useEffect(() => {
+        setDirection('')
+    },[route])
+    
+    const { isLoading, error, data } = useQuery('directionsData', () =>
+        fetch(`https://svc.metrotransit.org/nextripv2/directions/${route}`).then(res =>
+        res.json()
+        )
+    )
 
-    const [value, setValue] = useState('')
+    if (isLoading) return 'Loading...'
 
-    function handleChange(value) {
-        setValue(value)
-    }
- 
-   const options = [
-    {
-    Text: "Northbound",
-    Value: "0"
-    },
-    {
-    Text: "Southbound",
-    Value: "1"
-    }
-    ]
-
-    const routes = (
-        Array.isArray(options) 
-        ? options.map(({Value, Text})=> ([Value, Text]))
-        : Object.entries(options)).map(([key,value])=> {
+    if (error) return 'An error has occurred: ' + error.message
+    
+    const directions = (
+        Array.isArray(data) 
+        ? data.map(({direction_id, direction_name})=> ([direction_id, direction_name]))
+        : Object.entries(data)).map(([key,value])=> {
             return (
             <MenuItem key={key} value={key}>
                 {value}
@@ -43,19 +31,22 @@ function DirectionList() {
             )
         })
  
+    function handleChange(value) {
+        setDirection(value)
+    }
 
     return (
         <>
             <FormControl fullWidth>
                 <InputLabel id='direction-select-label'>Direction</InputLabel>
                 <Select
-                    value={value}
+                    value={direction}
                     onChange={e => handleChange(e.target.value)}
                 >
-                {routes}
+                {directions}
 
                 </Select>
-                {value ? <Stops /> : null}
+                { typeof direction === 'number' ? <Stops route={route} direction_id={direction} /> : null}
             </FormControl>
         </>
     )

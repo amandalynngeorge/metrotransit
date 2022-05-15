@@ -1,6 +1,5 @@
 import './App.css';
 import  RouteList  from './RouteList.jsx';
-import DirectionList from './DirectionList ';
 import {QueryClientProvider, QueryClient} from 'react-query';
 
 const queryClient = new QueryClient()
