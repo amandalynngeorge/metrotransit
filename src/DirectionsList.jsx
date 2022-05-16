@@ -1,20 +1,17 @@
 import React, { useState, useEffect } from "react";
-import {useQuery} from "react-query";
 import { FormControl, InputLabel, Select, MenuItem } from "@mui/material";
 import Stops from './Stops'
+import { useFetchDirections } from "./useFetchDirections";
 
-function DirectionList({route}) {
+function DirectionsList({route}) {
     const [direction, setDirection] = useState('')
+    console.log('direction', route, direction)
    
     useEffect(() => {
         setDirection('')
     },[route])
     
-    const { isLoading, error, data } = useQuery('directionsData', () =>
-        fetch(`https://svc.metrotransit.org/nextripv2/directions/${route}`).then(res =>
-        res.json()
-        )
-    )
+    const { isLoading, error, data } = useFetchDirections(route)
 
     if (isLoading) return 'Loading...'
 
@@ -30,26 +27,24 @@ function DirectionList({route}) {
             </MenuItem>
             )
         })
- 
+    console.log(directions)
     function handleChange(value) {
         setDirection(value)
     }
 
     return (
-        <>
-            <FormControl fullWidth>
-                <InputLabel id='direction-select-label'>Direction</InputLabel>
-                <Select
-                    value={direction}
-                    onChange={e => handleChange(e.target.value)}
-                >
-                {directions}
+        <FormControl fullWidth>
+            <InputLabel id='direction-select-label'>Direction</InputLabel>
+            <Select
+                value={direction}
+                onChange={e => handleChange(e.target.value)}
+            >
+            {directions}
 
-                </Select>
-                { typeof direction === 'number' ? <Stops route={route} direction_id={direction} /> : null}
-            </FormControl>
-        </>
+            </Select>
+            { typeof direction === 'number' ? <Stops route={route} direction_id={direction} /> : null}
+        </FormControl>
     )
 }
 
-export default DirectionList;
+export default DirectionsList;

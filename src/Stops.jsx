@@ -1,32 +1,25 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useRef} from "react";
 import {List, ListItem} from '@mui/material'
-import {useQuery} from 'react-query'
+import { useFetchStops } from "./useFetchStops";
 
 function Stops({route, direction_id}) {
-    console.log('stops recieves', route, direction_id)
     const [stops, setStops] = useState([])
+    console.log('stops', route, direction_id)
     
     useEffect(() => {
-        console.log('reset')
         setStops([])
     },[direction_id])
 
-    const { isLoading, error, data } = useQuery('stopsData', () =>
-        fetch(`https://svc.metrotransit.org/nextripv2/stops/${route}/${direction_id}`).then(res =>
-        res.json()
-        )
-    )
+    const { isLoading, error, data } = useFetchStops(route, direction_id)
 
     if (isLoading) return 'Loading...'
 
     if (error) return 'An error has occurred: ' + error.message
 
     if (stops !== data) {
-        console.log('setnew data')
         setStops(data)
     } 
     
-
     const stopsList = (
         Array.isArray(stops) 
         ? stops.map(({place_code, description})=> ([place_code, description]))
@@ -37,10 +30,14 @@ function Stops({route, direction_id}) {
             </ListItem>
             )
         })
+
     return (
-        <List>
-            {stopsList}
-        </List>
+        <>
+            <h2>Available Stops</h2>
+            <List >
+                {stopsList}
+            </List>
+        </>
     )
 }
     

@@ -1,19 +1,16 @@
 import React, { useState } from "react";
-import {useQuery} from "react-query";
 import { FormControl, InputLabel, Select, MenuItem } from "@mui/material";
-import DirectionList from "./DirectionList ";
-import {QueryClientProvider, useQueryClient} from 'react-query';
+import DirectionsList from './DirectionsList'
+import {QueryClient, QueryClientProvider, useQueryClient} from 'react-query';
+import { useFetchRoutes } from "./useFetchRoutes";
+const queryClient = new QueryClient()
 
 function RouteList() {
 
     const queryClient = useQueryClient()
     const [value, setValue] = useState('')
-    
-    const { isLoading, error, data } = useQuery('routeData', () =>
-     fetch('https://svc.metrotransit.org/nextripv2/routes').then(res =>
-       res.json()
-     )
-   )
+    console.log('route', value)
+    const { isLoading, error, data } = useFetchRoutes()
  
    if (isLoading) return 'Loading...'
  
@@ -29,7 +26,7 @@ function RouteList() {
         ? data.map(({route_id, route_label})=> ([route_id, route_label]))
         : Object.entries(data)).map(([key,value])=> {
             return (
-            <MenuItem key={key} value={key}>
+            <MenuItem key={key} value={key} >
                 {value}
             </MenuItem>
             )
@@ -37,7 +34,7 @@ function RouteList() {
  
 
     return (
-        <QueryClientProvider client={queryClient}>
+        
             <FormControl fullWidth>
                 <InputLabel id='route-select-label' label='Select'>Routes</InputLabel>
                 <Select
@@ -46,9 +43,8 @@ function RouteList() {
                 >
                 {routes}
                 </Select>
-                    { value ? <DirectionList route={value}/> : null}
+                    { value ? <DirectionsList route={value}/> : null}
             </FormControl>
-        </QueryClientProvider>
     )
 }
 
