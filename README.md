@@ -4,6 +4,8 @@ This React project provides MetroTransit stops for selected routes and direction
 
 ## Running this project
 
+This project runs on node 18.1.0
+
 ### `npm i`
 
 Runs the install for everything needed to use this app.
@@ -27,3 +29,5 @@ I chose to create this app using React and Material UI for its easy of use in qu
 - Not realizing that NexTrip is using a new API and having the response for the first one that is not running initally give me cors errors.
 
 - Testing useQuery and learning I needed to include the QueryClientProvider in the test files as well
+
+- Triggering refetches with useQuery by passing it the prop that will change

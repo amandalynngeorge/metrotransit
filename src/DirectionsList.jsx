@@ -5,7 +5,7 @@ import { useFetchDirections } from "./useFetchDirections";
 
 function DirectionsList({route}) {
     const [direction, setDirection] = useState('')
-    console.log('direction', route, direction)
+
    
     useEffect(() => {
         setDirection('')
@@ -27,7 +27,7 @@ function DirectionsList({route}) {
             </MenuItem>
             )
         })
-    console.log(directions)
+
     function handleChange(value) {
         setDirection(value)
     }

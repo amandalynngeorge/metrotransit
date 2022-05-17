@@ -1,10 +1,9 @@
-import React, {useState, useEffect, useRef} from "react";
+import React, {useState, useEffect } from "react";
 import {List, ListItem} from '@mui/material'
 import { useFetchStops } from "./useFetchStops";
 
 function Stops({route, direction_id}) {
     const [stops, setStops] = useState([])
-    console.log('stops', route, direction_id)
     
     useEffect(() => {
         setStops([])

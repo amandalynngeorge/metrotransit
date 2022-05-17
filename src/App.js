@@ -7,8 +7,12 @@ const queryClient = new QueryClient()
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <h1>Departures</h1>
-      <RouteList  />
+      <header className='App-header'>
+        <h1>MetroTransit Route Information</h1>
+      </header>
+      <div className='App'>
+        <RouteList  />
+      </div>
     </QueryClientProvider>
   );
 }

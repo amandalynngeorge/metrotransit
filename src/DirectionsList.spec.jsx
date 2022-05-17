@@ -33,7 +33,7 @@ describe("DirectionsList", () =>{
         it('displays Direction selection box', async () => {
 
             const route = 906
-            const rendered = render(<QueryClientProvider client={queryClient}><DirectionsList route={route} /></QueryClientProvider>);
+            render(<QueryClientProvider client={queryClient}><DirectionsList route={route} /></QueryClientProvider>);
             expect(await screen.findByText('Direction')).toBeTruthy()
         })
     })
